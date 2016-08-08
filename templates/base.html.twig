@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf8">
+        <link rel="stylesheet" media="all" href="/assets/css/normalize-3.0.3.min.css" />
+        <link rel="stylesheet" media="screen" href="/assets/css/main.css" />
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <title>No API - HTML View</title>
+    </head>
+    <body>
+        <h1>No API − HTML view</h1>
+        <h2>Backend: {{ meta.backend }}, Action: {{ meta.type }}, Query: {{ meta.query }}</h2>
+        <div class="tweetwall">
+        {% for tweet in tweets %}
+            {% include 'tweet.html.twig' %}
+        {% endfor %}
+        </div>
+    </body>
+</html>
+
