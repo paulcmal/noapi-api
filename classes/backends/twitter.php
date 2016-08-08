@@ -14,7 +14,7 @@
                 [ 'actionname' => 'backendClass::actionMethod' …]
         */
         static $actions = ['user' => 'TwitterWrapper::user', 'search' => 'TwitterWrapper::search', 'tag' => 'TwitterWrapper::tag'];
-
+        
         public static function user($args) {
             $query = $args['query'];
             $meta = ['type' => 'user', 'query' => $query, 'url' => 'https://twitter.com/' . $query];
