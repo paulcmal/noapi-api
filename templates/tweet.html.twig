@@ -1,13 +1,13 @@
-{{ tweet.retweet ? 'retweet' : '' }}
+{{ tweet.retweet ? '' : '' }}
 <div class="tweet">
     <p class="header">
         <a href="{{ tweet.user.url }}">
-            <img class="avatar" alt="" src="{{ tweet.user.avatar }}" />
+            <img class="avatar" alt="" src="{{ tweet.user.avatar }}">
             <span class="fullname">{{ tweet.user.fullname }}</span> <span class="user">@{{ tweet.user.name }}</span>
         </a>
         · <a class="date" title="fullDate" href="{{ tweet.url }}">displayDate</a>
     </p>
-    <p class="content">{{ tweet.text.html }}</p>
+    <p class="content">{{ tweet.text.html|raw }}</p>
     <ul class="footer">
         <li class="rt">{{ tweet.stats.rt }}</li>
         <li class="fav">{{ tweet.stats.fav }}</li>

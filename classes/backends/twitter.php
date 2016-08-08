@@ -8,7 +8,6 @@
     use \alct\noapi\Twitter;
 
     class TwitterWrapper {
-        
         static $extensions = ['default' => 'Views::toJSON', 'json' => 'Views::toJSON', 'html' => 'Views::toHTML'];
         /*
             static $actions[] : available actions, in the form of
@@ -20,7 +19,6 @@
             $query = $args['query'];
             $meta = ['type' => 'user', 'query' => $query, 'url' => 'https://twitter.com/' . $query];
             $twittie = (new Twitter())->twitter($meta);
-            //self::render($twittie, $args['ext']);
             \cmal\NoApi\Views::render($twittie, $args['ext']);
         }
         
