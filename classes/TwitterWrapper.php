@@ -1,6 +1,6 @@
 <?php
     
-    namespace cmal\NoApi;
+    namespace cmal\NoApi\Backend;
     
     require ('twitter.php');
     
@@ -9,23 +9,12 @@
 
     class TwitterWrapper {
         
-        static $extensions = ['default' => 'Views::toJSON', 'json' => 'Views::toJSON', 'html' => 'Views::toHTML'];     
-        // Actions can be linked to a method with a different name
-        static $actions = ['user' => 'user', 'search' => 'search', 'tag' => 'tag'];
-        
+        static $extensions = ['default' => 'Views::toJSON', 'json' => 'Views::toJSON', 'html' => 'Views::toHTML'];
         /*
-            $args
-                backend: name of the social backend called
-                action: name of the action (such as user/search/tag)
-                query: parameter passed to the action
+            static $actions[] : available actions, in the form of
+                [ 'actionname' => 'backendClass::actionMethod' …]
         */
-        public static function action($args) {
-            if (isset(self::$actions[$args['action']])) {
-                call_user_func('self::' . $args['action'], $args);
-            } else {
-                die('Action not found.');
-            }
-        }
+        static $actions = ['user' => 'TwitterWrapper::user', 'search' => 'TwitterWrapper::search', 'tag' => 'TwitterWrapper::tag'];
 
         public static function user($args) {
             $query = $args['query'];

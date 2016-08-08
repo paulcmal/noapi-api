@@ -2,24 +2,44 @@
     namespace cmal\NoApi;
  
     require ('vendor/autoload.php');
+
     require ('classes/Views.php');
-    //require ('classes/backendManager.php');
     require ('classes/TwitterWrapper.php');
     require ('classes/Cache.php');
     
     class Api {
-        static $backends = ['twitter' => '\cmal\NoApi\TwitterWrapper'];
+        /*
+            static $backends[] : available backends, in the form of
+                [ 'backendname' => '\cmal\NoApi\Backend\backendClass' …]
+        */
+        static $backends = ['twitter' => '\cmal\NoApi\Backend\TwitterWrapper'];
         
+        /*
+            dispatch : calls backend action method
+                $args[]
+                    backend: string, backend name to forward the request to
+                    action: string, backend method requested
+                    query: string, parameters
+            
+            Available actions are defined in the backends
+        */
         public static function dispatch($args) {
-            if (isset(self::$backends[$args['backend']])) {
-                self::$backends[$args['backend']]::action($args);
+            $backend = $args['backend'];
+            if (isset(self::$backends[$backend])) {
+                // If the backend exists, we need to check if it has a corresponding action
+                if (isset(self::$backends[$backend]::$actions[$args['action']])) {
+                    // Both backend and action requested are valid, so we forward the query to the appropriate method
+                    call_user_func(self::$backends[$backend] . '::' . $args['action'], $args);
+                } else {
+                    // The requested action is not registered in the backend
+                    die('Action not found.');
+                }
             } else {
+                // The requested backend does not exist
                 die('Silo (backend) not found.');
             }
         }
     }
-
-    $backends = new Api();
 
     // Below lies the router
     
