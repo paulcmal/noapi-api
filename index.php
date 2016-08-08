@@ -11,11 +11,9 @@
         static $backends = ['twitter' => '\cmal\NoApi\TwitterWrapper'];
         
         public static function dispatch($args) {
-            $time = microtime(true);
             if (isset(self::$backends[$args['backend']])) {
                 self::$backends[$args['backend']]::action($args);
             }
-            var_dump(microtime(true) - $time);
         }
     }
 
