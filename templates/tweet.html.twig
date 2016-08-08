@@ -1,4 +1,6 @@
-{{ tweet.retweet ? '' : '' }}
+{% if tweet.retweet %}
+<span class="context"><a href="{{ meta.url }}" class="author">{{ tweet.user.fullname }}</a> retweeted</span>
+{% endif %}
 <div class="tweet">
     <p class="header">
         <a href="{{ tweet.user.url }}">
