@@ -109,7 +109,7 @@ class Twitter
             $details['id'] = (int) $details['id'];
             $details['stats']['fav'] = (int) $details['stats']['fav'];
             $details['stats']['rt']  = (int) $details['stats']['rt'];
-            $details['user']['avatar'] = \cmal\NoApi\Cache::fetchFile($details['user']['avatar']);
+            $details['user']['avatar'] = \cmal\NoApi\Cache::getURL(\cmal\NoApi\Cache::fetchFile($details['user']['avatar']));
             ksort($details);
             $twitter['tweets'][] = $details;
         }

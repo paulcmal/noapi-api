@@ -19,6 +19,11 @@
         public static function filePath($filename) {
             return self::$folder . '/' . $filename;
         }
+        
+        public static function getURL($filepath) {
+            $scheme = $_SERVER['HTTPS'] ? 'https://' : 'http://';
+            return $scheme . $_SERVER['SERVER_NAME'] . '/' . $filepath;
+        }
 
         public static function get($backend, $key, $timeout) {
             try {
@@ -65,7 +70,7 @@
         public static function fetchFile ($url) {
             try {
                 // If image is already cached, we can get its path like this
-                return '/' . self::getPath('url', $url);
+                return self::getPath('url', $url);
             } catch (\Exception $e) {
                 $content = file_get_contents($url);
                 $finfo = new \finfo(FILEINFO_MIME_TYPE);
@@ -76,7 +81,7 @@
                 
                 try {
                     // Return the path to the image
-                    return '/' . self::set('url', $url, $content, self::$mimetypes[$mimetype]);
+                    return self::set('url', $url, $content, self::$mimetypes[$mimetype]);
                 } catch (\Exception $e) {
                     // File could not be saved to cache, return original url
                     return $url;
