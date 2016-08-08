@@ -1,0 +1,9 @@
+{
+    "require": {
+        "nikic/fast-route": "^1.0",
+        
+        "ext-curl": "*",
+        "ext-mbstring": "*",
+        "twig/twig": "^1.24"
+    }
+}
