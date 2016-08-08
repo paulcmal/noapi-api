@@ -4,8 +4,9 @@
     require ('vendor/autoload.php');
 
     require ('classes/Views.php');
-    require ('classes/TwitterWrapper.php');
     require ('classes/Cache.php');
+    
+    require ('classes/backends/twitter.php');
     
     class Api {
         /*
@@ -41,7 +42,8 @@
         }
     }
 
-    // Below lies the router
+    // Below lies the fast-route router
+    // For more info on how to tweak it, see https://github.com/nikic/FastRoute
     
     $dispatcher = \FastRoute\simpleDispatcher(function(\FastRoute\RouteCollector $r) {
         $r->addRoute('GET', '/{backend}/{action}/{query}.{ext}', '\cmal\NoApi\Api::dispatch');
