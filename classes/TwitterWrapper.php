@@ -22,6 +22,8 @@
         public static function action($args) {
             if (isset(self::$actions[$args['action']])) {
                 call_user_func('self::' . $args['action'], $args);
+            } else {
+                die('Action not found.');
             }
         }
 

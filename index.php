@@ -13,6 +13,8 @@
         public static function dispatch($args) {
             if (isset(self::$backends[$args['backend']])) {
                 self::$backends[$args['backend']]::action($args);
+            } else {
+                die('Silo (backend) not found.');
             }
         }
     }
