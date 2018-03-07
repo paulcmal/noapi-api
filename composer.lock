@@ -145,12 +145,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paulcmal/api.git",
-                "reference": "b88bc8984a45012b6606e4a7924417a175e5d26e"
+                "reference": "8c812b488991a6f21596579b7dfc612de957f2b8"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paulcmal/api/zipball/b88bc8984a45012b6606e4a7924417a175e5d26e",
-                "reference": "b88bc8984a45012b6606e4a7924417a175e5d26e",
+                "url": "https://api.github.com/repos/paulcmal/api/zipball/8c812b488991a6f21596579b7dfc612de957f2b8",
+                "reference": "8c812b488991a6f21596579b7dfc612de957f2b8",
                 "shasum": ""
             },
             "require": {
@@ -166,7 +166,7 @@
                 "source": "https://github.com/paulcmal/api/tree/master",
                 "issues": "https://github.com/paulcmal/api/issues"
             },
-            "time": "2018-03-06T12:13:05+00:00"
+            "time": "2018-03-07T15:32:56+00:00"
         },
         {
             "name": "cmal/twitter",
@@ -174,12 +174,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/paulcmal/twitter.git",
-                "reference": "ab5f77d6173e9c00a3c37a6d36281c6e595a94f2"
+                "reference": "b5c52c5d17720d93ac387b89fd2ef3d1d5d1a01c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/paulcmal/twitter/zipball/ab5f77d6173e9c00a3c37a6d36281c6e595a94f2",
-                "reference": "ab5f77d6173e9c00a3c37a6d36281c6e595a94f2",
+                "url": "https://api.github.com/repos/paulcmal/twitter/zipball/b5c52c5d17720d93ac387b89fd2ef3d1d5d1a01c",
+                "reference": "b5c52c5d17720d93ac387b89fd2ef3d1d5d1a01c",
                 "shasum": ""
             },
             "require": {
@@ -199,7 +199,7 @@
                 "source": "https://github.com/paulcmal/twitter/tree/master",
                 "issues": "https://github.com/paulcmal/twitter/issues"
             },
-            "time": "2018-03-06T15:34:19+00:00"
+            "time": "2018-03-07T14:13:06+00:00"
         },
         {
             "name": "nikic/fast-route",
