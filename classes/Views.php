@@ -1,6 +1,8 @@
 <?php
     namespace cmal\NoApi;
     
+    use \alct\noapi\NoAPI;
+    
     class Views {
         // Removed filter plugins, replaced with an array of regexes
         // Could be reimplemented if there is a need for it
@@ -20,7 +22,13 @@
             echo json_encode($twitter);
         }
         
-        public static function toHTML($twitter) {        
+        public static function toHTML($twitter) {
+        
+            // For HTML format we need to download the images on our server
+            foreach ($twitter['tweets'] as &$tweet) {
+                $tweet['user']['avatar'] = RemoteFileCache::fetchFileURL($tweet['user']['avatar'], 'cache/images');
+            }
+        
             $loader = new \Twig_Loader_Filesystem('./templates');
             $twig = new \Twig_Environment($loader, array(
                 'cache' => './cache/twig',
