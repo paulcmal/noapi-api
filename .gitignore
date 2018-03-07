@@ -1,4 +1,3 @@
 composer.phar
-cache/twig/*
-cache/backends/twitter/*
-cache/backends/url/*
+/cache/
+/vendor/
