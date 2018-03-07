@@ -5,6 +5,7 @@
     
     use \cmal\Api\Api;
     
-    new Api(["twitter" => '\cmal\NoApi\Backend\TwitterBackend']);
+    new Api(["twitter" => ['\cmal\NoApi\Backend\TwitterBackend', 'dispatch']]);
 
 ?>
+
