@@ -7,7 +7,7 @@
             <img class="avatar" alt="" src="{{ tweet.user.avatar }}">
             <span class="fullname">{{ tweet.user.fullname }}</span> <span class="user">@{{ tweet.user.name }}</span>
         </a>
-        · <a class="date" title="fullDate" href="{{ tweet.url }}">displayDate</a>
+        <a class="date" title="fullDate" href="{{ tweet.url }}" style="float:right; ">{{ tweet.datetime | date('H:i - d/m/Y') }}</a>
     </p>
     <p class="content">{{ tweet.text.html|raw }}</p>
     <ul class="footer">
