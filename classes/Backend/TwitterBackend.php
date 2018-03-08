@@ -3,13 +3,16 @@
     namespace cmal\NoApi\Backend;
     
     use \cmal\NoApi\Views;
-    use \cmal\Api\Backend;
+    use \cmal\Api\Router;
     use \cmal\Twitter\Twitter;
+    use \cmal\Api\Exception\NoRouteMatched;
+    use \cmal\Api\Exception\BaseRouteMatched;
 
-    class TwitterBackend extends \cmal\Api\Backend {
+    class TwitterBackend {
     
         static $routes = [
 		    'GET' => [
+		        '/' => ['\cmal\NoApi\Backend\TwitterBackend', 'index'],
 			    '/{action}/{query:.+}.{ext}' => ['\cmal\NoApi\Backend\TwitterBackend', 'action'],
 			    '/{query}.{ext}' => ['\cmal\NoApi\Backend\TwitterBackend', 'getUser']
 		    ],
@@ -24,8 +27,18 @@
             'hashtag' => 'tag'
         ];
                
-        public function dispatch ($args, $routes = NULL) {
-		    parent::dispatch($args, self::$routes);
+        public function dispatch ($args) {
+            try {
+                new Router (self::$routes, $args);
+		    } catch (BaseRouteMatched $e){
+		        echo 'twitter index';
+		    } catch (NoRouteMatched $e) {
+		        echo 'twitter subroute not matched';
+		    }
+	    }
+	    
+	    public function index ($args) {
+	        echo "twitter backend home page";
 	    }
 	    
 	    /*
