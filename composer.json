@@ -20,7 +20,9 @@
         "twig/twig": "~2.0",
         "cmal/api": "dev-master",
         "cmal/twitter": "dev-master",
-        "apix/cache": "^1.3"
+        "apix/cache": "^1.3",
+        "fusonic/opengraph": "@dev",
+        "pastuhov/php-exec-command": "^1.1"
     },
 
     "autoload": {
