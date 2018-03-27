@@ -35,12 +35,6 @@
 	        return json_encode($dict);
 	    }
 	    
-	    public function findWH ($content) {
-	        $matches = [];
-	        preg_match_all('<svg.*width="(.*)".*height="(.*)">', $content, $matches);
-	        return ['w' => $matches[1][0], 'h' => $matches[2][0]];
-	    }
-	    
 	    public function previewImg ($args) {
             $consumer = new Consumer();
             $cacheDir = 'cache/noapi';
@@ -54,51 +48,14 @@
                 return;
             }
             
-            $inputFile = RemoteFileCache::fileName($object->images[0]->url, $cacheDir);
-            $outputFile = $inputFile . '.svg';
-            //$outputFile = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.svg';
+            $inputFile = RemoteFileCache::fetchFile($object->images[0]->url, $cacheDir);
             
-            if (is_file($outputFile)) {
-                $handle = fopen($outputFile, 'r');
-                $contents = fread($handle, filesize($outputFile));
-                $object->preview = $contents;
-                $object->preview64 = base64_encode($contents);
-                $object->previewDim = self::findWH($contents);
-                $image = new \Imagick($inputFile);
-                $image->setImageCompressionQuality(30);
-                $image->thumbnailImage(512, 0);
-                $object->image64 = base64_encode($image);
-                echo self::replyContent($object);
-                fclose($handle);
-                return;
-            }
-            
-            $img = RemoteFileCache::fetchFile($object->images[0]->url, $cacheDir);
-            
-            try {
-                $primitive = realpath('./tools/primitive');
-                Command::exec($primitive . ' -i {input} -o {output} -n 50 -s 512',
-                    [
-                        'input' => $img,
-                        'output' => $outputFile,
-                    ]
-                );        
-            } catch (\pastuhov\Command\CommandException $e) {
-                echo self::replyContent('Primitive exception: ' . $e, true);
-                return;
-            }
-            
-            $handle = fopen($outputFile, "r");
-            $contents = fread($handle, filesize($outputFile));
-            $object->preview = $contents;
-            $object->preview64 = base64_encode($contents);
-            $object->previewDim = self::findWH($contents);
             $image = new \Imagick($inputFile);
             $image->setImageCompressionQuality(30);
             $image->thumbnailImage(512, 0);
+            $object->previewDim = ['w' => $image->getImageWidth(), 'h' => $image->getImageHeight()];
             $object->image64 = base64_encode($image);
             echo self::replyContent($object);
-            fclose($handle);
 	    }
 	    
     }
