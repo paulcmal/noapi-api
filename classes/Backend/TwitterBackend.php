@@ -31,9 +31,9 @@
             try {
                 new Router (self::$routes, $args);
 		    } catch (BaseRouteMatched $e){
-		        echo 'twitter index';
+		        echo 'Twitter backend index.';
 		    } catch (NoRouteMatched $e) {
-		        echo 'twitter subroute not matched';
+		        echo 'No such Twitter action.';
 		    }
 	    }
 	    
