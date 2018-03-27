@@ -15,7 +15,7 @@
     
         static $routes = [
 		    'GET' => [
-		        '/preview/{youtubeid:[a-zA-Z0-9_-]{11}}[/{quality:\d+}]' => ['\cmal\NoApi\Backend\YoutubeBackend', 'previewImg'],
+		        '/preview/{youtubeid:[a-zA-Z0-9_-]{11}}[/{width:\d+}[/{quality:\d+}]]' => ['\cmal\NoApi\Backend\YoutubeBackend', 'previewImg'],
 		    ],
 	    ];
                
@@ -36,8 +36,11 @@
 	    }
 	    
 	    public function previewImg ($args) {
-	        if (!isset ($args['quality'])) {
+	        if (!isset ($args['quality']) || $args['quality'] > 100) {
 	            $args['quality'] = 30;
+	        }
+	        if (!isset ($args['width']) || $args['width'] > 512) {
+	            $args['width'] = 512;
 	        }
 	    
             $consumer = new Consumer();
@@ -54,8 +57,8 @@
             
             $inputFile = RemoteFileCache::fetchFile($object->images[0]->url, $cacheDir);
             
-            $cachedPreview = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.' . $args['quality'];
-            $cachedDimensions = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.size';
+            $cachedPreview = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.' . $args['width'] . '.' . $args['quality'];
+            $cachedDimensions = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.' . $args['width'] . '.size';
             if (is_file($cachedPreview) && is_file($cachedDimensions)) {
                 $object->image64 = file_get_contents($cachedPreview);
                 $object->previewDim = json_decode(file_get_contents($cachedDimensions));
@@ -65,7 +68,7 @@
             
             $image = new \Imagick($inputFile);
             $image->setImageCompressionQuality($args['quality']);
-            $image->thumbnailImage(512, 0);
+            $image->thumbnailImage($args['width'], 0);
             $object->previewDim = ['w' => $image->getImageWidth(), 'h' => $image->getImageHeight()];
             $object->image64 = base64_encode($image);
             
