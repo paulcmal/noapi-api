@@ -5,10 +5,8 @@
 
     class RemoteFileCache {
         
-        public function fileName ($url) {
-            $path = explode ('.', $url);
-            $ext = array_pop( $path );
-            return hash('sha256', $url) . '.' . $ext;
+        public function fileName ($url, $directory = NULL) {
+            return $directory ? $directory . '/' . hash('sha256', $url) : hash('sha256', $url);
         }
         
         /*
@@ -27,7 +25,7 @@
             if (! is_dir($directory)) mkdir($directory, 0755, true);
             if (! is_writable($directory)) die('The cache/img directory is not writable.' . PHP_EOL);
             
-            $fileName = $directory . '/' . self::fileName($url);
+            $fileName = self::fileName($url, $directory);
             
             if (! is_file($fileName)) {
                 $image = file_get_contents($url);
@@ -43,7 +41,7 @@
             
             Wraps fetchFile to provide a URL to the file you want to fetch
         */
-        public function fetchFileURL ($url, $directory) {
+        public function fetchFileURL ($url, $directory = NULL) {
             $localFile = self::fetchFile($url, $directory);
             return $localFile ? '//' . $_SERVER['SERVER_NAME'] . '/' . $localFile : false;
         }
