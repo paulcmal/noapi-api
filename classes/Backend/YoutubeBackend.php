@@ -15,7 +15,7 @@
     
         static $routes = [
 		    'GET' => [
-		        '/preview/{youtubeid:[a-zA-Z0-9_-]{11}}' => ['\cmal\NoApi\Backend\YoutubeBackend', 'previewImg'],
+		        '/preview/{youtubeid:[a-zA-Z0-9_-]{11}}[/{quality:\d+}]' => ['\cmal\NoApi\Backend\YoutubeBackend', 'previewImg'],
 		    ],
 	    ];
                
@@ -36,6 +36,10 @@
 	    }
 	    
 	    public function previewImg ($args) {
+	        if (!isset ($args['quality']) {
+	            $args['quality'] = 30;
+	        }
+	    
             $consumer = new Consumer();
             $cacheDir = 'cache/noapi';
             $url = "https://www.youtube.com/watch?v=" . $args['youtubeid'];
@@ -51,10 +55,11 @@
             $inputFile = RemoteFileCache::fetchFile($object->images[0]->url, $cacheDir);
             
             $image = new \Imagick($inputFile);
-            $image->setImageCompressionQuality(30);
+            $image->setImageCompressionQuality($args['quality']);
             $image->thumbnailImage(512, 0);
             $object->previewDim = ['w' => $image->getImageWidth(), 'h' => $image->getImageHeight()];
             $object->image64 = base64_encode($image);
+            
             echo self::replyContent($object);
 	    }
 	    
