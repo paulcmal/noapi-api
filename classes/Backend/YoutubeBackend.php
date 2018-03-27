@@ -36,7 +36,7 @@
 	    }
 	    
 	    public function previewImg ($args) {
-	        if (!isset ($args['quality']) {
+	        if (!isset ($args['quality'])) {
 	            $args['quality'] = 30;
 	        }
 	    
@@ -54,11 +54,23 @@
             
             $inputFile = RemoteFileCache::fetchFile($object->images[0]->url, $cacheDir);
             
+            $cachedPreview = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.' . $args['quality'];
+            $cachedDimensions = RemoteFileCache::fileName($object->images[0]->url, $cacheDir) . '.size';
+            if (is_file($cachedPreview) && is_file($cachedDimensions)) {
+                $object->image64 = file_get_contents($cachedPreview);
+                $object->previewDim = json_decode(file_get_contents($cachedDimensions));
+                echo self::replyContent($object);
+                return;
+            }
+            
             $image = new \Imagick($inputFile);
             $image->setImageCompressionQuality($args['quality']);
             $image->thumbnailImage(512, 0);
             $object->previewDim = ['w' => $image->getImageWidth(), 'h' => $image->getImageHeight()];
             $object->image64 = base64_encode($image);
+            
+            file_put_contents($cachedPreview, $object->image64);
+            file_put_contents($cachedDimensions, json_encode($object->previewDim));
             
             echo self::replyContent($object);
 	    }
